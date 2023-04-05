@@ -9,10 +9,10 @@ import (
 	"strconv"
 )
 
-/* an array with 4 rows and 2 columns*/
-var codebook = [2][4][2]int{{{0b00, 0b01}, {0b01, 0b10}, {0b10, 0b11}, {0b11, 0b00}}, {{0b00, 0b10}, {0b01, 0b11}, {0b10, 0b00}, {0b11, 0b01}}}
+var codebook = [2][4][2]int{{{0b00, 0b01}, {0b01, 0b10}, {0b10, 0b11}, {0b11, 0b00}},
+	{{0b00, 0b10}, {0b01, 0b11}, {0b10, 0b00}, {0b11, 0b01}}}
 var message = [4]int{0b00, 0b01, 0b10, 0b11}
-var key int = 0
+var key int = 0 // Uses codebook1, the first array.
 var lookupValue int = 0
 
 func textToBinary(s string) (binString string) {
@@ -34,25 +34,6 @@ func binaryToString(binaryString string) (textString string) {
 	return textString
 }
 
-func codebookLookup(key int) (ciphertext int) {
-	var i, j, k int = 0, 0, 1
-	var found bool = false
-	for i = 0; i < 2; i++ {
-		for j = 0; j < 4; j++ {
-			if codebook[i][j][k] == key {
-				k--
-				ciphertext = codebook[i][j][k]
-				found = true
-				break
-			}
-		}
-		if found {
-			break
-		}
-
-	}
-	return ciphertext
-}
 func ECB_Ciphertext(text string) (ciphertext string) {
 	ciphertext = ""
 	var x, i int = 0, 0
@@ -103,3 +84,4 @@ func main() {
 	ciphertext := ECB_Ciphertext(text)
 	ECB_Decipher(ciphertext)
 }
+
